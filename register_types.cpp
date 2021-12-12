@@ -5,7 +5,7 @@
 
 static Sentry* _sentry = NULL;
 
-void register_sentry_types() {
+void register_godot_sentry_native_types() {
 	ClassDB::register_class<Sentry>();
 
 	// Automatically create singleton instance, this is so that sentry can be initialized as soon as possible
@@ -14,6 +14,6 @@ void register_sentry_types() {
 	Engine::get_singleton()->add_singleton(Engine::Singleton("Sentry", Sentry::get_singleton()));
 }
 
-void unregister_sentry_types() {
+void unregister_godot_sentry_native_types() {
 	memdelete(_sentry);
 }
