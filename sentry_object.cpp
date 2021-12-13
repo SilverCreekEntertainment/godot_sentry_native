@@ -60,7 +60,7 @@ Sentry::Sentry() {
 
 	// Attach godot.log file to crash report.
 	String data_dir = OS::get_singleton()->get_user_data_dir();
-	sentry_options_add_attachment(options, String(data_dir + "/godot.log").utf8());	
+	sentry_options_add_attachment(options, String(data_dir + "/logs/godot.log").utf8());	
 	
 	sentry_init(options);
 
