@@ -53,21 +53,21 @@ Sentry::Sentry() {
 	
 	// Init Sentry
 	sentry_options_t *options = sentry_options_new();
-	sentry_options_set_dsn(options, sentry_dsn.ascii());
-	sentry_options_set_release(options, release.ascii());
-	sentry_options_set_database_path(options, sentry_db_path.ascii());
+	sentry_options_set_dsn(options, sentry_dsn.utf8());
+	sentry_options_set_release(options, release.utf8());
+	sentry_options_set_database_path(options, sentry_db_path.utf8());
 	sentry_options_set_before_send(options, _on_before_send, NULL);
 
 	// Attach godot.log file to crash report.
 	String data_dir = OS::get_singleton()->get_user_data_dir();
-	sentry_options_add_attachment(options, String(data_dir + "/godot.log").ascii());	
+	sentry_options_add_attachment(options, String(data_dir + "/godot.log").utf8());	
 	
 	sentry_init(options);
 
 	// Add tags
-	sentry_set_tag("app", app_name.ascii());
+	sentry_set_tag("app", app_name.utf8());
 	String godot_version = Engine::get_singleton()->get_version_info()["string"];
-	sentry_set_tag("godot_version", godot_version.ascii());
+	sentry_set_tag("godot_version", godot_version.utf8());
 
 	// Optionally set default user that is just identified by ip
 	if(send_ip_address) {
@@ -99,7 +99,7 @@ void Sentry::_set_username(String p_username)
 	if(send_ip_address) {
 		sentry_value_set_by_key(user, "ip_address", sentry_value_new_string("{{auto}}"));
 	}
-	sentry_value_set_by_key(user, "username", sentry_value_new_string(p_username.ascii()));
+	sentry_value_set_by_key(user, "username", sentry_value_new_string(p_username.utf8()));
 	sentry_set_user(user);
 }
 
@@ -111,5 +111,5 @@ void Sentry::_test_crash()
 
 void Sentry::_send_event(String p_text)
 {
-	sentry_capture_event(sentry_value_new_message_event(SENTRY_LEVEL_INFO, "custom", p_text.ascii()));
+	sentry_capture_event(sentry_value_new_message_event(SENTRY_LEVEL_INFO, "custom", p_text.utf8()));
 }
